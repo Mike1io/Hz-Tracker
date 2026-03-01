@@ -41,7 +41,13 @@ const CATEGORY_COLORS = {
 
 export default function MarketPage() {
     // Market state
-    const [coins, setCoins] = useState([]);
+    const [coins, setCoins] = useState(() => {
+        try {
+            const cached = localStorage.getItem('market_coins_cache');
+            if (cached) return JSON.parse(cached);
+        } catch (e) { }
+        return [];
+    });
     const [loading, setLoading] = useState(true);
     const [lastUpdated, setLastUpdated] = useState(null);
     const [selectedAsset, setSelectedAsset] = useState(null);
@@ -62,7 +68,13 @@ export default function MarketPage() {
     const [newsLastUpdated, setNewsLastUpdated] = useState(null);
 
     // Global Market state
-    const [globalStats, setGlobalStats] = useState(null);
+    const [globalStats, setGlobalStats] = useState(() => {
+        try {
+            const cached = localStorage.getItem('market_global_cache');
+            if (cached) return JSON.parse(cached);
+        } catch (e) { }
+        return null;
+    });
     const [globalStatsLoading, setGlobalStatsLoading] = useState(true);
 
     useEffect(() => {
@@ -71,12 +83,16 @@ export default function MarketPage() {
 
     // ── Market data ──────────────────────────────────────────────────────────
     const fetchPrices = async () => {
+        if (!coins.length) setLoading(true);
         try {
             const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h');
             const data = await res.json();
             if (Array.isArray(data)) {
                 setCoins(data);
                 setLastUpdated(new Date());
+                localStorage.setItem('market_coins_cache', JSON.stringify(data));
+            } else if (data.status?.error_code === 429) {
+                console.warn('CoinGecko API rate limit reached for prices.');
             }
         } catch (error) {
             console.error('Failed to fetch market prices:', error);
@@ -86,11 +102,15 @@ export default function MarketPage() {
     };
 
     const fetchGlobalStats = async () => {
+        if (!globalStats) setGlobalStatsLoading(true);
         try {
             const res = await fetch('https://api.coingecko.com/api/v3/global');
             const data = await res.json();
             if (data && data.data) {
                 setGlobalStats(data.data);
+                localStorage.setItem('market_global_cache', JSON.stringify(data.data));
+            } else if (data.status?.error_code === 429) {
+                console.warn('CoinGecko API rate limit reached for global stats.');
             }
         } catch (error) {
             console.error('Failed to fetch global stats:', error);
@@ -101,10 +121,12 @@ export default function MarketPage() {
 
     useEffect(() => {
         fetchPrices();
-        fetchGlobalStats();
+        // Stagger the global stats fetch slightly to avoid hitting strict concurrent rate limits
+        setTimeout(fetchGlobalStats, 1000);
+
         const interval = setInterval(() => {
             fetchPrices();
-            fetchGlobalStats();
+            setTimeout(fetchGlobalStats, 1000);
         }, 60000);
         return () => clearInterval(interval);
     }, []);
