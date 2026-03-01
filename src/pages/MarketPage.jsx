@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { TrendingUp, TrendingDown, Activity, RefreshCw, X, Search, Globe, Twitter, Heart, Newspaper, ExternalLink, Wifi, WifiOff } from 'lucide-react';
+import { TrendingUp, TrendingDown, Activity, RefreshCw, X, Search, Globe, Twitter, Heart, Newspaper, ExternalLink, Wifi, WifiOff, ChevronRight } from 'lucide-react';
 
 // ─── News helpers ──────────────────────────────────────────────────────────────
 
@@ -61,6 +61,10 @@ export default function MarketPage() {
     const [newsFilter, setNewsFilter] = useState('All');
     const [newsLastUpdated, setNewsLastUpdated] = useState(null);
 
+    // Global Market state
+    const [globalStats, setGlobalStats] = useState(null);
+    const [globalStatsLoading, setGlobalStatsLoading] = useState(true);
+
     useEffect(() => {
         localStorage.setItem('market_favorites', JSON.stringify(favorites));
     }, [favorites]);
@@ -81,9 +85,27 @@ export default function MarketPage() {
         }
     };
 
+    const fetchGlobalStats = async () => {
+        try {
+            const res = await fetch('https://api.coingecko.com/api/v3/global');
+            const data = await res.json();
+            if (data && data.data) {
+                setGlobalStats(data.data);
+            }
+        } catch (error) {
+            console.error('Failed to fetch global stats:', error);
+        } finally {
+            setGlobalStatsLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchPrices();
-        const interval = setInterval(fetchPrices, 30000);
+        fetchGlobalStats();
+        const interval = setInterval(() => {
+            fetchPrices();
+            fetchGlobalStats();
+        }, 60000);
         return () => clearInterval(interval);
     }, []);
 
@@ -248,7 +270,82 @@ export default function MarketPage() {
             </div>
 
             {/* ══════════════════════════════════════════════ */}
-            {/* ── MARKET VIEW ── */}
+            {/* ── GLOBAL MARKET STATS WIDGETS ── */}
+            {/* ══════════════════════════════════════════════ */}
+            {isMarketTab && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '16px', marginBottom: '24px', marginTop: '16px' }}>
+                    {globalStatsLoading ? (
+                        <>
+                            <div style={{ background: '#1c1e24', borderRadius: '20px', height: '140px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <div className="spinner" style={{ width: '24px', height: '24px', borderTopColor: 'var(--text-muted)' }} />
+                            </div>
+                            <div style={{ background: '#1c1e24', borderRadius: '20px', height: '140px', display: 'flex', alignItems: 'center', justifyContent: 'center', display: 'none' }} className="hide-on-mobile">
+                                <div className="spinner" style={{ width: '24px', height: '24px', borderTopColor: 'var(--text-muted)' }} />
+                            </div>
+                        </>
+                    ) : globalStats ? (
+                        <>
+                            {/* Market Cap Widget */}
+                            <div style={{ background: '#1c1e24', borderRadius: '20px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                    <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#fff', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        Market Cap <ChevronRight size={16} color="var(--text-muted)" style={{ marginTop: '2px' }} />
+                                    </h3>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', position: 'relative', zIndex: 2 }}>
+                                    <span style={{ fontSize: '2.2rem', fontWeight: '800', fontFamily: '"Space Grotesk", sans-serif', color: '#fff', letterSpacing: '-0.5px' }}>
+                                        {formatVolume(globalStats.total_market_cap?.usd).replace('.00', '')}
+                                    </span>
+                                    <div style={{ display: 'flex', alignItems: 'center', color: globalStats.market_cap_change_percentage_24h_usd >= 0 ? '#00d4aa' : 'var(--red)', fontSize: '1rem', fontWeight: '700' }}>
+                                        {globalStats.market_cap_change_percentage_24h_usd >= 0 ? <TrendingUp size={16} style={{ marginRight: '4px' }} /> : <TrendingDown size={16} style={{ marginRight: '4px' }} />}
+                                        {Math.abs(globalStats.market_cap_change_percentage_24h_usd || 0).toFixed(2)}%
+                                    </div>
+                                </div>
+
+                                {/* Abstract decorative sparkline */}
+                                <svg width="100%" height="45" viewBox="0 0 200 45" preserveAspectRatio="none" style={{ position: 'absolute', bottom: '12px', left: 0, right: 0, zIndex: 1, opacity: 0.9 }}>
+                                    <path d="M10,25 L30,26 L40,26 L60,25 L75,26 L80,35 L90,42 L100,40 L110,40 L120,38 L130,42 L140,40 L150,38 L160,26 L170,22 L175,25 L180,25 L185,20 L190,22 L195,12 L200,16" fill="none" stroke="#00d4aa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </div>
+
+                            {/* 24h Volume Widget */}
+                            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', position: 'relative', overflow: 'hidden' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                    <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--text)', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        24h Volume <ChevronRight size={14} color="var(--text-muted)" />
+                                    </h3>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', position: 'relative', zIndex: 2 }}>
+                                    <span style={{ fontSize: '1.8rem', fontWeight: '800', fontFamily: '"Space Grotesk", sans-serif' }}>
+                                        {formatVolume(globalStats.total_volume?.usd)}
+                                    </span>
+                                    {/* Using global volume doesn't have a direct 24h change percentage in CoinGecko global API, so we show the volume ratio to market cap approx */}
+                                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '500' }}>
+                                        Global Crypto Trading Volume
+                                    </span>
+                                </div>
+
+                                {/* Abstract decorative sparkline for volume (usually very volatile, drawn spiky) */}
+                                <svg width="100%" height="40" viewBox="0 0 200 40" preserveAspectRatio="none" style={{ position: 'absolute', bottom: '10px', left: 0, right: 0, zIndex: 1, opacity: 0.6 }}>
+                                    <rect x="10" y="20" width="8" height="20" fill="var(--primary)" rx="2" opacity="0.4" />
+                                    <rect x="30" y="15" width="8" height="25" fill="var(--primary)" rx="2" opacity="0.6" />
+                                    <rect x="50" y="25" width="8" height="15" fill="var(--primary)" rx="2" opacity="0.3" />
+                                    <rect x="70" y="10" width="8" height="30" fill="var(--primary)" rx="2" opacity="0.7" />
+                                    <rect x="90" y="18" width="8" height="22" fill="var(--primary)" rx="2" opacity="0.5" />
+                                    <rect x="110" y="5" width="8" height="35" fill="var(--primary)" rx="2" opacity="0.8" />
+                                    <rect x="130" y="15" width="8" height="25" fill="var(--primary)" rx="2" opacity="0.6" />
+                                    <rect x="150" y="22" width="8" height="18" fill="var(--primary)" rx="2" opacity="0.4" />
+                                    <rect x="170" y="8" width="8" height="32" fill="var(--primary)" rx="2" opacity="0.7" />
+                                    <rect x="190" y="12" width="8" height="28" fill="var(--primary)" rx="2" opacity="0.5" />
+                                </svg>
+                            </div>
+                        </>
+                    ) : null}
+                </div>
+            )}
+
+            {/* ══════════════════════════════════════════════ */}
+            {/* ── MARKET VIEW (Coin List) ── */}
             {/* ══════════════════════════════════════════════ */}
             {isMarketTab && (
                 <>
