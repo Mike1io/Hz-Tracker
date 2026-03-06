@@ -107,7 +107,7 @@ export default function LoginPage() {
                         <div className="login-logo">
                             <TrendingUp size={36} />
                         </div>
-                        <h1>Hz Tracker</h1>
+                        <h1>H-Tracker</h1>
                         <p>{getTitle()}</p>
                     </div>
 

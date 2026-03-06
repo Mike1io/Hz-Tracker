@@ -159,7 +159,7 @@ export default function MarketPage() {
         setNewsError(null);
         try {
             const res = await fetch(
-                'https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=latest&extraParams=hz-tracker'
+                'https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=latest&extraParams=h-tracker'
             );
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();

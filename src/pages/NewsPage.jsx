@@ -64,7 +64,7 @@ export default function NewsPage() {
                 `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed)}&count=30`;
 
             const [ccResult, ...rssResults] = await Promise.allSettled([
-                fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=latest&extraParams=hz-tracker')
+                fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=latest&extraParams=h-tracker')
                     .then(r => r.json()),
                 ...RSS_FEEDS.map(f =>
                     fetch(toRss2JsonUrl(f.url))

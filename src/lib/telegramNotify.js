@@ -6,7 +6,7 @@ export async function sendTelegramNotification(trade) {
 
     const emoji = trade.amount >= 0 ? '📈' : '📉';
     const sign = trade.amount >= 0 ? '+' : '';
-    const message = `${emoji} *Hz Tracker — New Trade*\n\n` +
+    const message = `${emoji} *H-Tracker — New Trade*\n\n` +
         `🪙 Asset: *${trade.asset}*\n` +
         `📊 Type: *${trade.trade_type}*\n` +
         `💰 P&L: *${sign}$${Number(trade.amount).toFixed(2)}*\n` +

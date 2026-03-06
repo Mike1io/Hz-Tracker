@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
     LayoutDashboard,
@@ -58,10 +58,10 @@ export default function Layout() {
         <div className="app-layout">
             <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
-                    <div className="logo">
+                    <Link to="/" className="logo">
                         <TrendingUp size={28} className="logo-icon" />
-                        <span className="logo-text">Hz Tracker</span>
-                    </div>
+                        <span className="logo-text">H-Tracker</span>
+                    </Link>
                     <button className="sidebar-close" onClick={() => setSidebarOpen(false)}>
                         <X size={20} />
                     </button>
@@ -117,10 +117,10 @@ export default function Layout() {
                     <button className="menu-toggle" onClick={() => setSidebarOpen(true)}>
                         <Menu size={24} />
                     </button>
-                    <div className="topbar-logo">
+                    <Link to="/" className="topbar-logo">
                         <TrendingUp size={22} className="logo-icon" />
-                        <span>Hz Tracker</span>
-                    </div>
+                        <span>H-Tracker</span>
+                    </Link>
                 </header>
                 <div className="page-content">
                     <Outlet />

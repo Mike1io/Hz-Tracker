@@ -8,7 +8,7 @@ export default function ProtectedRoute({ children }) {
         return (
             <div className="loading-screen">
                 <div className="spinner" />
-                <p>Loading Hz Tracker...</p>
+                <p>Loading H-Tracker...</p>
             </div>
         );
     }

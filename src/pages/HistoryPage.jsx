@@ -126,7 +126,7 @@ export default function HistoryPage() {
         const ws = XLSX.utils.json_to_sheet(exportData);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Trades');
-        XLSX.writeFile(wb, `hz-tracker-trades-${format(new Date(), 'yyyy-MM-dd')}.xlsx`);
+        XLSX.writeFile(wb, `h-tracker-trades-${format(new Date(), 'yyyy-MM-dd')}.xlsx`);
         toast.success('Exported to Excel!');
     };
 

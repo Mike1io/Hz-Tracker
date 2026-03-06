@@ -38,7 +38,7 @@ export default function LandingPage() {
             <section className="diagram-section">
                 <div className="container">
                     <div className="section-header">
-                        <h2>How HZ Tracker Works</h2>
+                        <h2>How H-Tracker Works</h2>
                         <p>A seamless workflow designed for peak performance</p>
                     </div>
 
@@ -106,9 +106,9 @@ export default function LandingPage() {
                         <div className="footer-left">
                             <div className="brand">
                                 <TrendingUp size={24} />
-                                <span>Hz Tracker</span>
+                                <span>H-Tracker</span>
                             </div>
-                            <p>&copy; 2026 Hz Tracker. Built for the next generation of traders.</p>
+                            <p>&copy; 2026 H-Tracker. Built for the next generation of traders.</p>
                         </div>
 
                         <div className="footer-right">

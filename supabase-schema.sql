@@ -1,5 +1,5 @@
 -- =============================================
--- Hz Tracker - Supabase Database Schema
+-- H-Tracker - Supabase Database Schema
 -- Run this in the Supabase SQL Editor
 -- =============================================
 
