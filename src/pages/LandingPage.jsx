@@ -113,11 +113,11 @@ export default function LandingPage() {
 
                         <div className="footer-right">
                             <a
-                                href="https://x.com/Mike_io1"
+                                href="https://x.com/HTracker_"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="twitter-link"
-                                title="Follow Mike_io1 on X"
+                                title="Follow HTracker_ on X"
                             >
                                 <Twitter size={20} />
                                 <span>Follow on X</span>

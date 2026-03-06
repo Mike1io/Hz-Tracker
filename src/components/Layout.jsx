@@ -84,7 +84,7 @@ export default function Layout() {
 
                 <div className="sidebar-footer">
                     <a
-                        href="https://x.com/Mike_io1"
+                        href="https://x.com/HTracker_"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="nav-link x-link"
