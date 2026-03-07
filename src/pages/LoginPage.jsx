@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
 import { Mail, Lock, ArrowRight, Eye, EyeOff, ChevronLeft, Twitter } from 'lucide-react';
@@ -103,13 +103,13 @@ export default function LoginPage() {
                         </button>
                     )}
 
-                    <div className="login-header">
+                    <Link to="/" className="login-header" style={{ textDecoration: 'none', display: 'block' }}>
                         <div className="login-logo">
                             <img src="/logo.jpg.png" alt="H-Tracker Logo" />
                         </div>
                         <h1>H-Tracker</h1>
-                        <p>{getTitle()}</p>
-                    </div>
+                        <p style={{ color: 'var(--text-secondary)' }}>{getTitle()}</p>
+                    </Link>
 
                     <form onSubmit={handleSubmit} className="login-form">
                         {view !== 'update-password' && (
