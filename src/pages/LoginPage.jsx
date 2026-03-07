@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
-import { Mail, Lock, ArrowRight, Eye, EyeOff, ChevronLeft } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Eye, EyeOff, ChevronLeft, Twitter } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -217,6 +217,41 @@ export default function LoginPage() {
                                 </button>
                             </p>
                         )}
+
+                        <div style={{ marginTop: '24px', borderTop: '1px solid var(--border)', paddingTop: '24px', display: 'flex', justifyContent: 'center' }}>
+                            <a
+                                href="https://x.com/HTracker_"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '12px',
+                                    padding: '12px 24px',
+                                    background: 'rgba(255, 255, 255, 0.03)',
+                                    border: '1px solid var(--border)',
+                                    borderRadius: '12px',
+                                    color: 'var(--text-primary)',
+                                    fontSize: '0.95rem',
+                                    fontWeight: '500',
+                                    transition: 'all 0.2s ease',
+                                    textDecoration: 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+                                    e.currentTarget.style.borderColor = 'var(--border-light)';
+                                    e.currentTarget.style.transform = 'translateY(-1px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                                    e.currentTarget.style.borderColor = 'var(--border)';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                }}
+                            >
+                                <Twitter size={20} style={{ color: 'var(--accent)' }} />
+                                <span>Follow on X</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
