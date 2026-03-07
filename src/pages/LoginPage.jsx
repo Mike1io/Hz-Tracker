@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
-import { TrendingUp, Mail, Lock, ArrowRight, Eye, EyeOff, ChevronLeft } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Eye, EyeOff, ChevronLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -105,7 +105,7 @@ export default function LoginPage() {
 
                     <div className="login-header">
                         <div className="login-logo">
-                            <TrendingUp size={36} />
+                            <img src="/logo.jpg.png" alt="H-Tracker Logo" />
                         </div>
                         <h1>H-Tracker</h1>
                         <p>{getTitle()}</p>

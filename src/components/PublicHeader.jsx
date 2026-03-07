@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { TrendingUp, LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { profileStorage } from '../lib/profileStorage';
 
@@ -26,7 +26,7 @@ export default function PublicHeader() {
             <div className="container">
                 <div className="header-content">
                     <Link to="/" className="brand">
-                        <TrendingUp size={28} className="brand-icon" />
+                        <img src="/logo.jpg.png" alt="H-Tracker Logo" className="brand-logo" />
                         <span className="brand-text">H-Tracker</span>
                     </Link>
 

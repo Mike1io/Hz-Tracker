@@ -32,9 +32,10 @@
     color: #e0e0ff;
 }
 
-.brand-icon {
-    color: #00d4aa;
-    filter: drop-shadow(0 0 8px rgba(0, 212, 170, 0.4));
+.brand-logo {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
 }
 
 .brand-text {

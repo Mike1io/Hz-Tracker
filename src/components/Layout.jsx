@@ -8,7 +8,6 @@ import {
     LogOut,
     Menu,
     X,
-    TrendingUp,
     Twitter,
     UserCircle,
     Activity,
@@ -59,7 +58,7 @@ export default function Layout() {
             <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
                     <Link to="/" className="logo">
-                        <TrendingUp size={28} className="logo-icon" />
+                        <img src="/logo.jpg.png" alt="H-Tracker Logo" className="logo-img" />
                         <span className="logo-text">H-Tracker</span>
                     </Link>
                     <button className="sidebar-close" onClick={() => setSidebarOpen(false)}>
@@ -118,7 +117,7 @@ export default function Layout() {
                         <Menu size={24} />
                     </button>
                     <Link to="/" className="topbar-logo">
-                        <TrendingUp size={22} className="logo-icon" />
+                        <img src="/logo.jpg.png" alt="H-Tracker Logo" className="topbar-logo-img" />
                         <span>H-Tracker</span>
                     </Link>
                 </header>

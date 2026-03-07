@@ -105,7 +105,7 @@ export default function LandingPage() {
                     <div className="footer-content">
                         <div className="footer-left">
                             <div className="brand">
-                                <TrendingUp size={24} />
+                                <img src="/logo.jpg.png" alt="H-Tracker Logo" className="brand-logo" />
                                 <span>H-Tracker</span>
                             </div>
                             <p>&copy; 2026 H-Tracker. Built for the next generation of traders.</p>
